@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Записи в блоге</h1>
+    <h1>Список задач</h1>
     {% if current_user.is_authenticated %}
         <a href="jobs" class="btn btn-secondary">Добавить Работу</a>
     {% endif %}
@@ -9,10 +9,11 @@
         <div class="col-md6 border rounded">
             <h2>{{ item.title }}</h2>
             <div>
-                Team Leader (id): {{item.team_leader_id}}<br>
-                Work size: {{ item.work_size }}<br>
-                Collaborators: {{item.collaborators}}<br>
-                Category: {{item.categories[0].name}}<br>
+                Ответственный за группу (id): {{item.team_leader_id}}<br>
+                Объем работы: {{ item.work_size }}<br>
+                Соучастники: {{item.collaborators}}<br>
+                Категория: {{item.categories[0].name}}<br>
+                Выполнена: {% if item.is_finished %}Да{% else %}Нет{% endif %}
             </div>
             {% if current_user.is_authenticated and (current_user.id == item.user_created or current_user.id == 1) %}
                 <div>

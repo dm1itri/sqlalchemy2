@@ -46,6 +46,7 @@ def add_job():
         job.work_size = form.work_size.data
         job.collaborators = form.collaborators.data
         job.user_created = current_user.id
+        job.is_finished = form.is_finished.data
         db_sess.query(Category).filter(Category.id == form.category.data).first()
         job.categories.append(db_sess.query(Category).filter(Category.id == form.category.data).first())
         db_sess.add(job)
@@ -81,18 +82,22 @@ def edit_job(id):
             form.team_leader_id.data = job.team_leader_id
             form.work_size.data = job.work_size
             form.collaborators.data = job.collaborators
-            form.category.data = job.categories
+            form.category.data = job.categories[0].id
+            form.is_finished.data = job.is_finished
         else:
             abort(404)
     if form.validate_on_submit():
         db_sess = db_session.create_session()
         job = db_sess.query(Job).filter(Job.id == id, Job.user_created == current_user.id).first()
-        if job:
+        team_leader = db_sess.query(User).filter(form.team_leader_id == User.id).first()
+        if job and team_leader:
             job.title = form.title.data
             job.team_leader_id = form.team_leader_id.data
             job.work_size = form.work_size.data
             job.collaborators = form.collaborators.data
-            job.categories = form.category.data
+            job.categories.remove(job.categories[0])
+            job.categories.append(db_sess.query(Category).filter(Category.id == form.category.data).first())
+            job.is_finished = form.is_finished.data
             db_sess.commit()
             return redirect('/')
         else:
