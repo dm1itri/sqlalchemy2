@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Департаменты</h1>
+    {% if current_user.is_authenticated %}
+        <a href="/department" class="btn btn-secondary">Добавить Департамент</a>
+    {% endif %}
+    {% for item in departments %}
+        <div class="col-md6 border rounded">
+            <h2>{{ item.title }}</h2>
+            <h2>Chief (id): {{item.chief}}</h2>
+            <div>
+                Members: {{ item.members }}<br>
+                Email: {{item.email}}
+            </div>
+            {% if current_user.is_authenticated %}
+                <div>
+                    <a href="/department/{{ item.id }}" class="btn btn-warning">Изменить</a>
+                </div>
+            {% endif %}
+        </div>
+    {% endfor %}
+{% endblock %}
