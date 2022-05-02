@@ -7,6 +7,7 @@ from forms.user import RegisterForm, LoginForm
 from data.jobs import Job
 from data.users import User
 from data.departments import Department
+from data.category import Category
 from data import db_session
 
 app = Flask(__name__)
@@ -45,6 +46,8 @@ def add_job():
         job.work_size = form.work_size.data
         job.collaborators = form.collaborators.data
         job.user_created = current_user.id
+        db_sess.query(Category).filter(Category.id == form.category.data).first()
+        job.categories.append(db_sess.query(Category).filter(Category.id == form.category.data).first())
         db_sess.add(job)
         # current_user.news.append(job)
         # db_sess.merge(current_user)
@@ -78,6 +81,7 @@ def edit_job(id):
             form.team_leader_id.data = job.team_leader_id
             form.work_size.data = job.work_size
             form.collaborators.data = job.collaborators
+            form.category.data = job.categories
         else:
             abort(404)
     if form.validate_on_submit():
@@ -88,6 +92,7 @@ def edit_job(id):
             job.team_leader_id = form.team_leader_id.data
             job.work_size = form.work_size.data
             job.collaborators = form.collaborators.data
+            job.categories = form.category.data
             db_sess.commit()
             return redirect('/')
         else:

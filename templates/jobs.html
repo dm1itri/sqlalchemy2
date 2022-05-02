@@ -31,10 +31,19 @@
                 </p>
             {% endfor %}
         </p>
-                <p>
+        <p>
             {{ form.collaborators.label }}<br>
             {{ form.collaborators(class="form-control") }}<br>
             {% for error in form.collaborators.errors %}
+                <p content="alert alert-danger" role="alert">
+                    {{ error }}
+                </p>
+            {% endfor %}
+        </p>
+         <p>
+            {{ form.category.label }}<br>
+            {{ form.category(class="form-control") }}<br>
+            {% for error in form.category.errors %}
                 <p content="alert alert-danger" role="alert">
                     {{ error }}
                 </p>

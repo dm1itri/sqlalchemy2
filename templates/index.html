@@ -8,10 +8,11 @@
     {% for item in jobs %}
         <div class="col-md6 border rounded">
             <h2>{{ item.title }}</h2>
-            <h2>Team Leader (id): {{item.team_leader_id}}</h2>
             <div>
+                Team Leader (id): {{item.team_leader_id}}<br>
                 Work size: {{ item.work_size }}<br>
-                Collaborators: {{item.collaborators}}
+                Collaborators: {{item.collaborators}}<br>
+                Category: {{item.categories[0].name}}<br>
             </div>
             {% if current_user.is_authenticated and (current_user.id == item.user_created or current_user.id == 1) %}
                 <div>

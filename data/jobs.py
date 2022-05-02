@@ -11,7 +11,6 @@ class Job(SqlAlchemyBase):
     team_leader_id = sqlalchemy.Column(sqlalchemy.Integer, nullable=False)
     work_size = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
     collaborators = sqlalchemy.Column(sqlalchemy.String)
-
     user_created = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey("users.id"))
     user = orm.relation('User')
-    # categories = orm.relation("Category", secondary="association", backref="news")
+    categories = orm.relation("Category", secondary="association", backref="jobs")
