@@ -12,7 +12,7 @@
 <body>
 <header>
     <nav class="navbar navbar-light bg-light">
-        <a class="navbar-brand" href="#">Наше приложение</a>
+        <a class="navbar-brand" href="#">Миссия колонизации Марса</a>
         {% if current_user.is_authenticated %}
             <a class="navbar-brand" href="/logout">{{ current_user.name }}</a>
         {% else %}
@@ -22,6 +22,7 @@
             </p>
         {% endif %}
     </nav>
+    <h3 align="center" style="color: Grey">И на Марсе будут цвести яблони</h3>
 </header>
 <!-- Begin page content -->
 <main role="main" class="container">

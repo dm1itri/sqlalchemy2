@@ -1,9 +1,9 @@
 from flask import Flask, render_template, redirect, request, abort
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 
-from forms.news import NewsForm
+from forms.jobs import JobsForm
 from forms.user import RegisterForm, LoginForm
-from data.news import News
+from data.jobs import Job
 from data.users import User
 from data import db_session
 
@@ -31,23 +31,25 @@ def main():
     app.run()
 
 
-@app.route('/news', methods=['GET', 'POST'])
+@app.route('/jobs', methods=['GET', 'POST'])
 @login_required
-def add_news():
-    form = NewsForm()
+def add_job():
+    form = JobsForm()
     if form.validate_on_submit():
         db_sess = db_session.create_session()
-        news = News()
-        news.title = form.title.data
-        news.content = form.content.data
-        news.is_private = form.is_private.data
-        current_user.news.append(news)
-        db_sess.merge(current_user)
+        job = Job()
+        job.title = form.title.data
+        job.team_leader_id = form.team_leader_id.data
+        job.work_size = form.work_size.data
+        job.collaborators = form.collaborators.data
+        db_sess.add(job)
+        # current_user.news.append(job)
+        # db_sess.merge(current_user)
         db_sess.commit()
         return redirect('/')
-    return render_template('news.html', title='Добавление новости', form=form)
+    return render_template('jobs.html', title='Добавление работы', form=form)
 
-
+'''
 @app.route('/news_delete/<int:id>', methods=['GET', 'POST'])
 @login_required
 def news_delete(id):
@@ -86,20 +88,19 @@ def edit_news(id):
         else:
             abort(404)
     return render_template('news.html', title='Редактирование новости', form=form)
+'''
 
 
 @app.route("/")
 def index():
     db_sess = db_session.create_session()
-    if current_user.is_authenticated:
-        news = db_sess.query(News).filter((News.user == current_user) | (News.is_private != True))
-    else:
-        news = db_sess.query(News).filter(News.is_private != True)
-    return render_template("index.html", news=news)
+    jobs = db_sess.query(Job).all()
+    print(jobs)
+    return render_template("index.html", jobs=jobs)
 
 
 @app.route('/register', methods=['GET', 'POST'])
-def reqister():
+def register():
     form = RegisterForm()
     if form.validate_on_submit():
         if form.password.data != form.password_again.data:
