@@ -64,7 +64,7 @@ def news_delete(id):
     return redirect('/')
 
 
-@app.route('/jobs/<int:id>', methods=['GET', 'POST'])
+@app.route('/job/<int:id>', methods=['GET', 'POST'])
 @login_required
 def edit_job(id):
     form = JobsForm()
