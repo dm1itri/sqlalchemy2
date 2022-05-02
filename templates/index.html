@@ -13,6 +13,12 @@
                 Work size: {{ item.work_size }}<br>
                 Collaborators: {{item.collaborators}}
             </div>
+            {% if current_user.is_authenticated and (current_user.id == item.user_created or current_user.id == 1) %}
+                <div>
+                    <a href="/job/{{ item.id }}" class="btn btn-warning">Изменить</a>
+                    <a href="/job_delete/{{ item.id }}" class="btn btn-danger">Удалить</a>
+                </div>
+            {% endif %}
         </div>
     {% endfor %}
 {% endblock %}

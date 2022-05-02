@@ -1,7 +1,6 @@
 # import datetime
 import sqlalchemy
-# from sqlalchemy import orm
-
+from sqlalchemy import orm
 from .db_session import SqlAlchemyBase
 
 
@@ -13,6 +12,6 @@ class Job(SqlAlchemyBase):
     work_size = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
     collaborators = sqlalchemy.Column(sqlalchemy.String)
 
-    # team_leader_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey("users.id"))
-    # user = orm.relation('User')
+    user_created = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey("users.id"))
+    user = orm.relation('User')
     # categories = orm.relation("Category", secondary="association", backref="news")
